@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raktim Dey | Portfolio</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* --- Global Styles & Variables (Mobile-First) --- */
+      :root {
+        --primary-color: #007bff;
+        --secondary-color: #f4f4f4;
+        --text-color: #333;
+        --heading-color: #0056b3;
+        --bg-color: #ffffff;
+        --header-height: 60px; /* Smaller header for mobile */
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding-top: var(--header-height); /* Offset for fixed header */
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-bottom: 1rem;
+        color: var(--heading-color);
+      }
+
+      h2 {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      section {
+        padding: 3rem 1rem; /* Less padding on mobile */
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      /* --- Header & Navigation --- */
+      header {
+        background-color: var(--bg-color);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        height: var(--header-height);
+      }
+
+      .logo a {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: var(--heading-color);
+      }
+
+      /* Hide desktop nav on mobile */
+      .nav-links {
+        display: none;
+      }
+
+      /* --- Hamburger Menu --- */
+      .hamburger-menu {
+        display: flex; /* Show hamburger on mobile */
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 24px;
+        cursor: pointer;
+        z-index: 1002;
+      }
+
+      .hamburger-menu .bar {
+        width: 100%;
+        height: 3px;
+        background-color: var(--text-color);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      /* Hamburger "X" animation */
+      .hamburger-menu.active .bar:nth-child(1) {
+        transform: translateY(8.5px) rotate(45deg);
+      }
+      .hamburger-menu.active .bar:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger-menu.active .bar:nth-child(3) {
+        transform: translateY(-8.5px) rotate(-45deg);
+      }
+
+      /* --- Mobile Navigation Menu (Overlay) --- */
+      .mobile-nav {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* Hide it by default */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        z-index: 999;
+      }
+
+      .mobile-nav.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .mobile-nav-links {
+        list-style: none;
+        text-align: center;
+      }
+
+      .mobile-nav-links li {
+        margin: 2rem 0;
+      }
+
+      .mobile-nav-links a {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--heading-color);
+      }
+
+      /* --- Utility Buttons --- */
+      .cta-button {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .cta-button:hover {
+        background-color: var(--heading-color);
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+      --- 1. NEW: Animation Keyframes & Classes ---
+      =========================================
+      */
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes popUp {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Class for Hero Section Fade-in */
+      .fade-in-on-load {
+        animation: fadeIn 1s ease-out forwards;
+      }
+
+      /* Class to hide About Me section initially */
+      .hidden-on-scroll {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+
+      /* Class to show About Me section when visible */
+      .show-on-scroll {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* --- Hero Section --- */
+      .hero {
+        background-color: var(--secondary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: calc(100vh - var(--header-height));
+        padding: 0 1rem;
+
+        /* FADED COVER PICTURE: */
+        background-image: linear-gradient(
+            rgba(14, 14, 14, 0.8),
+            rgba(35, 33, 33, 0.8)
+          ),
+          url("cover-photo.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+        color: #fff;
+      }
+
+      .hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        color: #fff;
+      }
+
+      /* --- About Section --- */
+      .about-content img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 1.5rem auto;
+        display: block;
+        background-color: #ddd; /* Placeholder */
+      }
+
+      .about-content p {
+        font-size: 1.1rem;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 1rem auto;
+      }
+
+      /* --- Experience & Education Section --- */
+      #experience {
+        background-color: var(--bg-color);
+      }
+
+      .experience-column h3 {
+        font-size: 1.8rem;
+        color: var(--heading-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .experience-item {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .experience-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .experience-item h4 {
+        font-size: 1.25rem;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .experience-item h5 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-item p {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 0;
+      }
+
+      /* For experience role lists */
+      .experience-item ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-top: 0.5rem;
+      }
+
+      .experience-item li {
+        font-size: 1rem;
+        color: var(--text-color);
+        margin-bottom: 0.75rem;
+        position: relative;
+        padding-left: 1.5rem;
+        font-weight: 500;
+      }
+
+      .experience-item li::before {
+        content: "›"; /* Simple, clean bullet */
+        position: absolute;
+        left: 0;
+        top: -1px; /* Align with text */
+        color: var(--primary-color);
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+
+      .experience-item li span {
+        display: block;
+        font-size: 0.9rem;
+        color: #777;
+        font-weight: 400;
+        margin-top: 0.25rem;
+      }
+
+      /* Achievements list (slight tweak to reuse) */
+      .achievements-list {
+        padding-left: 1.5rem; /* Indent for alignment */
+      }
+      .achievements-list li {
+        font-size: 1rem;
+        font-weight: 400;
+      }
+      .achievements-list li::before {
+        content: "🏆"; /* Fun emoji bullet */
+        font-size: 1rem;
+        top: 1px;
+      }
+
+      /* --- Skills Section --- */
+      #skills {
+        background-color: var(--secondary-color);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 1.5rem;
+      }
+
+      .skill-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .skill-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .skill-card i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .skill-card h3 {
+        font-size: 1.5rem;
+        color: var(--heading-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .skill-card p {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      /* --- Project & Certificate Slider Styles --- */
+      #projects {
+        background-color: var(--bg-color); /* Alternating color */
+      }
+
+      .project-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        /* ADDED for consistent height in slider */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background-color: #ddd; /* Placeholder */
+      }
+
+      .project-card h3 {
+        font-size: 1.5rem;
+        padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+      }
+
+      .project-card p {
+        padding: 0 1.5rem;
+        /* ADDED to push link to bottom */
+        flex-grow: 1;
+      }
+
+      .project-link {
+        display: inline-block;
+        margin: 1.5rem;
+        font-weight: 600;
+      }
+
+      /* ADDED Certificate Card for slider */
+      .certificate-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        height: 100%; /* Match slide height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .certificate-card i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+      .certificate-card h4 {
+        font-size: 1.1rem;
+        color: var(--heading-color);
+        margin-bottom: 0.5rem;
+      }
+      .certificate-card p {
+        font-size: 0.9rem;
+        color: #777;
+      }
+
+      /* ADDED Swiper base styles */
+      .swiper {
+        width: 100%;
+        /* Add padding to show arrows clearly */
+        padding: 1rem 3.5rem;
+      }
+
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: stretch; /* Makes all slides same height */
+        height: auto;
+      }
+
+      /* Style for the navigation arrows */
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: var(--primary-color);
+        top: 50%; /* Center arrows */
+        transform: translateY(-50%);
+      }
+
+      /* --- Certificates Section --- */
+      #certificates {
+        background-color: var(--secondary-color); /* Alternating color */
+      }
+
+      /* --- Contact Section --- */
+      #contact {
+        text-align: center;
+      }
+
+      #contact p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 2rem auto;
+      }
+
+      .contact-links {
+        display: flex;
+        flex-direction: column; /* Stack buttons on mobile */
+        align-items: center;
+        gap: 1rem;
+      }
+
+      /* --- Footer --- */
+      footer {
+        text-align: center;
+        padding: 2rem 1rem;
+        background-color: var(--text-color);
+        color: var(--secondary-color);
+      }
+
+      /* --- Back to Top Button --- */
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 900;
+      }
+
+      .back-to-top:hover {
+        background-color: var(--heading-color);
+        transform: translateY(-3px);
+      }
+
+      .back-to-top.show {
+        display: flex;
+      }
+
+      /* --- Resume Modal Styles --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        padding: 1rem;
+      }
+
+      .modal-overlay.show {
+        display: flex; /* Show when active */
+      }
+
+      .modal-content {
+        position: relative;
+        background: #fff;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 900px; /* Max width for the modal */
+        height: 90vh; /* 90% of the viewport height */
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        overflow: hidden; /* Hides parts of iframe */
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .modal-content h3 {
+        text-align: center;
+        padding: 0.5rem;
+        color: var(--heading-color);
+        border-bottom: 1px solid #eee;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #888;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 2001;
+      }
+      .close-modal:hover {
+        color: #333;
+      }
+
+      .modal-content iframe {
+        flex-grow: 1; /* Takes up all available space */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-top: 1rem;
+      }
+
+      .download-btn {
+        display: block;
+        width: fit-content;
+        margin: 1.5rem auto 0.5rem auto;
+        text-align: center;
+      }
+
+      /*
+=========================================
+--- DESKTOP STYLES (Tablet & Up) ---
+=========================================
+*/
+
+      @media (min-width: 769px) {
+        :root {
+          --header-height: 70px; /* Taller header for desktop */
+        }
+
+        section {
+          padding: 4rem 2rem;
+        }
+
+        nav {
+          padding: 0 2rem;
+        }
+
+        /* Hide hamburger, show desktop links */
+        .hamburger-menu {
+          display: none;
+        }
+
+        .nav-links {
+          display: flex;
+          list-style: none;
+        }
+
+        .nav-links li {
+          margin-left: 2rem;
+        }
+
+        .nav-links a {
+          font-weight: 600;
+          padding-bottom: 5px;
+          transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+          color: var(--heading-color);
+          border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Resume button specific style */
+        .nav-links a.resume-trigger {
+          font-weight: 600;
+          color: var(--primary-color);
+        }
+        .nav-links a.resume-trigger:hover {
+          color: var(--heading-color);
+          border-bottom: 2px solid transparent; /* No underline on hover */
+        }
+
+        /* --- Hero --- */
+        .hero-content h1 {
+          font-size: 3.5rem;
+        }
+
+        .hero-content p {
+          font-size: 1.25rem;
+        }
+
+        /* --- Experience (Desktop) --- */
+        .experience-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 3rem;
+        }
+
+        /* --- Skills (Desktop) --- */
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* --- Contact --- */
+        .contact-links {
+          flex-direction: row; /* Horizontal buttons on desktop */
+          justify-content: center;
+          gap: 1.5rem;
+        }
+
+        /* --- Modal (Desktop) --- */
+        .modal-content {
+          padding: 2rem;
+        }
+      }
+
+      /* --- Larger Desktop Styles --- */
+      @media (min-width: 1024px) {
+        h2 {
+          font-size: 2.5rem;
+        }
+
+        .skills-grid {
+          grid-template-columns: repeat(
+            4,
+            1fr
+          ); /* 4 columns on large screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="#home">RAKTIM DEY</a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#certificates">Certificates</a></li>
+          <li><a href="#" class="resume-trigger">PDF Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="mobile-nav">
+      <ul class="mobile-nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#" class="resume-trigger">PDF Resume</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-content fade-in-on-load">
+          <h1>WELCOME! I AM RAKTIM DEY</h1>
+          <p>
+            Engineering Student (EEE, AUST) · Graphics Designer · Web Developer
+            · Tech Enthusiast
+          </p>
+          <a href="#projects" class="cta-button">View My Work</a>
+        </div>
+      </section>
+
+      <section id="about">
+        <h2>About Me</h2>
+        <div class="about-content hidden-on-scroll">
+          <img
+            src="your-headshot.jpg"
+            alt="A professional headshot of [Your Name]"
+          />
+          <p>
+            Currently, I'm an undergraduate student of Electrical and Electronic
+            Engineering (EEE) at Ahsanullah University of Science and Technology
+            (AUST). I'm very interested in Software Engineering and Programming.
+            I have great enthusiasm for machine learning and data analysis.
+            Additionally, I have skills in web development and once launched my
+            own website through web hosting. As I can develop websites, I know
+            HTML5, CSS, and JavaScript. Besides these scripting languages, I
+            know C and C++. Now, I'm an enthusiast to learn React.js. Moreover,
+            I have skills in a different area, which is Graphic Designing. I
+            have mastered Adobe Photoshop, Adobe Illustrator, and Canva. Aiming
+            to get myself into a tech giant company.
+          </p>
+        </div>
+      </section>
+
+      <section id="experience">
+        <h2>My Experience & Education</h2>
+        <div class="experience-grid">
+          <div class="experience-column">
+            <h3>Experience</h3>
+
+            <div class="experience-item">
+              <h4>AUST Photography Club - AUSTPC</h4>
+              <ul>
+                <li>
+                  Head of Graphics Design <span>(Aug 2025 - Present)</span>
+                </li>
+                <li>
+                  Sub-Executive Member (GFX) <span>(Jan 2025 - Jul 2025)</span>
+                </li>
+                <li>General Member <span>(Jan 2025 - Present)</span></li>
+              </ul>
+            </div>
+
+            <div class="experience-item">
+              <h4>IEEE AUST Student Branch – IASB</h4>
+              <ul>
+                <li>
+                  Visual and Graphics Coordinator
+                  <span>(Mar 2025 - Present)</span>
+                </li>
+                <li>General Member <span>(Jan 2025 - Present)</span></li>
+                <li>Future Champ 4.0 <span>(Jan 2024 - Mar 2025)</span></li>
+              </ul>
+            </div>
+
+            <div class="experience-item">
+              <h4>AUST Debating Club - AUSTDC</h4>
+              <ul>
+                <li>
+                  Sub Executive Member (Admin) <span>(Jan 2025 - Present)</span>
+                </li>
+                <li>General Member <span>(Dec 2023 - Present)</span></li>
+              </ul>
+            </div>
+
+            <div class="experience-item">
+              <h4>AUST Innovation and Design Club - AUSTIDC</h4>
+              <ul>
+                <li>General Member <span>(Dec 2023 - Present)</span></li>
+              </ul>
+            </div>
+
+            <div class="experience-item">
+              <h4>AUST Career Development Club - AUSTCDC</h4>
+              <ul>
+                <li>Member <span>(Nov 2023 - Present)</span></li>
+              </ul>
+            </div>
+
+            <div class="experience-item">
+              <h4>Bangladesh Red Crescent Society - BDRCS</h4>
+              <ul>
+                <li>Volunteer <span>(Jan 2015 - Present)</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="experience-column">
+            <h3>Education</h3>
+
+            <div class="experience-item">
+              <h4>B.Sc in EEE (2023 - 2027)</h4>
+              <h5>Ahsanullah University of Science and Technology - AUST</h5>
+            </div>
+
+            <div class="experience-item">
+              <h4>HSC, Science (2020 - 2022)</h4>
+              <h5>Ispahani Public College, Chittagong</h5>
+              <p>GPA: 5.00</p>
+            </div>
+
+            <div class="experience-item">
+              <h4>SSC, Science (2014 - 2020)</h4>
+              <h5>Hazi Mohammad Mohsin Govt. High School, Chittagong</h5>
+              <p>GPA: 5.00</p>
+            </div>
+
+            <h3>Achievements</h3>
+            <div class="experience-item">
+              <ul class="achievements-list">
+                <li>
+                  Qualified and Participated at the HSBC Business Case
+                  Competition 2025 National Round
+                </li>
+                <li>
+                  One of the Top 3 teams at HSBC - Business Case Competition
+                  2025 Intra Round
+                </li>
+                <li>
+                  Regional Winner of Bangladesh Mathematical Olympiad (BdMO)
+                  2022
+                </li>
+                <li>
+                  Divisional Qualifier at Bangladesh Physics Olympiad (BdPhO)
+                  2022
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="skills">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <i class="fa-solid fa-palette"></i>
+            <h3>Graphics Design</h3>
+            <p>
+              Adobe Photoshop, Illustrator, Figma. Experience as a Visual
+              Coordinator and Head of Graphics.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <i class="fa-solid fa-code"></i>
+            <h3>Web Basics</h3>
+            <p>
+              HTML5, CSS3, and JavaScript. Currently building my personal
+              portfolio.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>EEE Concepts</h3>
+            <p>
+              Studying Electrical & Electronic Engineering. Familiar with
+              circuit theory and basic principles.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <i class="fa-solid fa-users"></i>
+            <h3>Leadership & Admin</h3>
+            <p>
+              Sub-Executive (Admin) at AUSTDC and volunteer at BDRCS. Strong
+              organizational skills.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>My Projects</h2>
+
+        <div class="swiper project-slider">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img src="1.jpg" alt="Screenshot of Project 1" />
+                <h3>Project Title 1</h3>
+                <p>
+                  A brief description of your project. What problem did it
+                  solve? What technologies did you use?
+                </p>
+                <a
+                  href="[Link to Project or GitHub]"
+                  target="_blank"
+                  class="project-link"
+                  >View Project</a
+                >
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img src="2.jpg" alt="Screenshot of Project 2" />
+                <h3>Project Title 2</h3>
+                <p>
+                  A brief description of your project. What problem did it
+                  solve? What technologies did you use?
+                </p>
+                <a
+                  href="[Link to Project or GitHub]"
+                  target="_blank"
+                  class="project-link"
+                  >View Project</a
+                >
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img src="3.jpg" alt="Screenshot of Project 3" />
+                <h3>Project Title 3</h3>
+                <p>
+                  A brief description of your project. What problem did it
+                  solve? What technologies did you use?
+                </p>
+                <a
+                  href="[Link to Project or GitHub]"
+                  target="_blank"
+                  class="project-link"
+                  >View Project</a
+                >
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img src="project-4-image.jpg" alt="Screenshot of Project 4" />
+                <h3>Project Title 4</h3>
+                <p>
+                  Add as many projects as you want by copying the 'swiper-slide'
+                  block.
+                </p>
+                <a
+                  href="[Link to Project or GitHub]"
+                  target="_blank"
+                  class="project-link"
+                  >View Project</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+
+      <section id="certificates">
+        <h2>Certificates</h2>
+
+        <div class="swiper certificate-slider">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="certificate-card">
+                <i class="fa-solid fa-award"></i>
+                <h4>[Name of Certificate 1]</h4>
+                <p>[Issuing Organization]</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="certificate-card">
+                <i class="fa-solid fa-award"></i>
+                <h4>[Name of Certificate 2]</h4>
+                <p>[Issuing Organization]</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="certificate-card">
+                <i class="fa-solid fa-award"></i>
+                <h4>[Name of Certificate 3]</h4>
+                <p>[Issuing Organization]</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="certificate-card">
+                <i class="fa-solid fa-award"></i>
+                <h4>[Name of Certificate 4]</h4>
+                <p>[Issuing Organization]</p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Get In Touch</h2>
+        <p>
+          I'm currently open to new opportunities and collaborations. Feel free
+          to reach out!
+        </p>
+        <div class="contact-links">
+          <a href="mailto:[your.email@example.com]" class="cta-button"
+            >Email Me</a
+          >
+          <a href="[Your LinkedIn URL]" target="_blank" class="cta-button"
+            >LinkedIn</a
+          >
+          <a href="[Your GitHub URL]" target="_blank" class="cta-button"
+            >GitHub</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Raktim Dey. All rights reserved.</p>
+    </footer>
+
+    <a href="#home" class="back-to-top" aria-label="Back to top">^</a>
+
+    <div id="resume-modal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>My Resume</h3>
+        <iframe
+          src="resume.pdf"
+          width="100%"
+          height="100%"
+          title="My Resume PDF"
+        ></iframe>
+        <a
+          href="resume.pdf"
+          download="[YourName]_Resume.pdf"
+          class="cta-button download-btn"
+        >
+          Download PDF
+        </a>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- ALL THE PREVIOUS JS IS HERE (Mobile Menu, Modal, etc.) ---
+
+        // --- Selectors ---
+        const hamburgerMenu = document.querySelector(".hamburger-menu");
+        const mobileNav = document.querySelector(".mobile-nav");
+        const mobileNavLinks = document.querySelectorAll(".mobile-nav a");
+        const backToTopButton = document.querySelector(".back-to-top");
+        const sections = document.querySelectorAll("section");
+
+        const scrollLinks = document.querySelectorAll(
+          '.nav-links a[href^="#"], .mobile-nav-links a[href^="#"]'
+        );
+        const allNavLinks = document.querySelectorAll(
+          '.nav-links a[href^="#"], .mobile-nav-links a[href^="#"]'
+        );
+
+        const resumeModal = document.getElementById("resume-modal");
+        const resumeTriggers = document.querySelectorAll(".resume-trigger");
+        const closeModalBtn = document.querySelector(".close-modal");
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+          hamburgerMenu.classList.toggle("active");
+          mobileNav.classList.toggle("active");
+
+          if (mobileNav.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "";
+          }
+        }
+        hamburgerMenu.addEventListener("click", toggleMobileMenu);
+
+        mobileNavLinks.forEach((link) => {
+          if (link.getAttribute("href").startsWith("#")) {
+            link.addEventListener("click", () => {
+              if (mobileNav.classList.contains("active")) {
+                toggleMobileMenu();
+              }
+            });
+          }
+        });
+
+        // --- Back to Top Button ---
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+            backToTopButton.classList.add("show");
+          } else {
+            backToTopButton.classList.remove("show");
+          }
+        });
+
+        // --- Active Nav Link Highlighting on Scroll ---
+        function highlightNavOnScroll() {
+          let currentSection = "";
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+              currentSection = section.getAttribute("id");
+            }
+          });
+
+          allNavLinks.forEach((link) => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${currentSection}`) {
+              link.classList.add("active");
+            }
+          });
+        }
+        window.addEventListener("scroll", highlightNavOnScroll);
+
+        // --- Smooth Scroll for anchor links ---
+        scrollLinks.forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+              allNavLinks.forEach((link) => link.classList.remove("active"));
+              const correspondingLinks = document.querySelectorAll(
+                `.nav-links a[href="${targetId}"], .mobile-nav-links a[href="${targetId}"]`
+              );
+              correspondingLinks.forEach((l) => l.classList.add("active"));
+              targetElement.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+        });
+
+        // --- Resume Modal Logic ---
+        function openModal() {
+          resumeModal.classList.add("show");
+          document.body.style.overflow = "hidden";
+          if (mobileNav.classList.contains("active")) {
+            toggleMobileMenu();
+          }
+        }
+        function closeModal() {
+          resumeModal.classList.remove("show");
+          document.body.style.overflow = "";
+        }
+        resumeTriggers.forEach((trigger) => {
+          trigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal();
+          });
+        });
+        closeModalBtn.addEventListener("click", closeModal);
+        resumeModal.addEventListener("click", (e) => {
+          if (e.target === resumeModal) {
+            closeModal();
+          }
+        });
+
+        // --- Swiper Slider Logic ---
+        const projectSlider = new Swiper(".project-slider", {
+          loop: true,
+          slidesPerView: 1,
+          spaceBetween: 30,
+          navigation: {
+            nextEl: ".project-slider .swiper-button-next",
+            prevEl: ".project-slider .swiper-button-prev",
+          },
+          breakpoints: {
+            769: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
+          },
+        });
+        const certificateSlider = new Swiper(".certificate-slider", {
+          loop: true,
+          slidesPerView: 1,
+          spaceBetween: 30,
+          navigation: {
+            nextEl: ".certificate-slider .swiper-button-next",
+            prevEl: ".certificate-slider .swiper-button-prev",
+          },
+          breakpoints: {
+            769: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
+          },
+        });
+
+        /* ==================================================
+        --- 2. NEW: Intersection Observer for Scroll Animation ---
+        ==================================================
+        */
+        const aboutContent = document.querySelector(".about-content");
+
+        const observerOptions = {
+          root: null, // observes intersections relative to the viewport
+          threshold: 0.1, // triggers when 10% of the element is visible
+        };
+
+        const observerCallback = (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Add the "show" class to trigger the pop-up
+              aboutContent.classList.add("show-on-scroll");
+              // Stop observing once the animation has been triggered
+              observer.unobserve(entry.target);
+            }
+          });
+        };
+
+        const scrollObserver = new IntersectionObserver(
+          observerCallback,
+          observerOptions
+        );
+
+        // Start observing the #about section
+        scrollObserver.observe(document.querySelector("#about"));
+      });
+    </script>
+  </body>
+</html>
